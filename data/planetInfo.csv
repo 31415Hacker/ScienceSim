@@ -1,0 +1,10 @@
+name,type,orbitalDistance,radius,period,color,description
+Sun,Star,0.0,0.8,0.0,#FFE0B2,"The central star of the system. It is the main light source and the body the corona is built around."
+Mercury,Planet,1.55,0.04,0.241,#8C8A82,"Small, rocky, and closest to the Sun. It completes an orbit very quickly compared with the outer planets."
+Venus,Planet,2.89,0.07,0.615,#E6D28C,"A bright rocky world with a thick atmosphere in the simulation view."
+Earth,Planet,4.0,0.08,1.0,#3380E6,"Our home planet, shown with a slightly larger visible size for readability in the scene."
+Mars,Planet,6.1,0.05,1.881,#CC5926,"A small red planet with a longer orbit than Earth and a much thinner appearance."
+Jupiter,Planet,20.8,0.45,11.86,#CCA666,"The largest planet in the system, exaggerated here for visibility and scale contrast."
+Saturn,Planet,38.1,0.38,29.46,#D9BF8C,"Known for its rings. In this simulation, the rings are rendered separately from the sphere."
+Uranus,Planet,76.8,0.18,84.01,#99D9E6,"An icy giant with a pale blue tone and a very long orbital period."
+Neptune,Planet,120.3,0.17,164.8,#4066E6,"A distant blue planet with the longest orbit in the scene."

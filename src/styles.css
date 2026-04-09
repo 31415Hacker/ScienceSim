@@ -1,0 +1,277 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+    display: flex;
+    height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(64, 90, 163, 0.16), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(255, 170, 109, 0.1), transparent 28%),
+        #090d16;
+}
+
+#sidebar {
+    width: 280px;
+    background: rgba(14, 18, 30, 0.96);
+    color: #f5f7ff;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+}
+
+.tab-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tab-button {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #c3cae7;
+    padding: 10px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.tab-button.active {
+    background: linear-gradient(180deg, rgba(106, 170, 255, 0.26), rgba(106, 170, 255, 0.08));
+    border-color: rgba(106, 170, 255, 0.35);
+    color: #eff5ff;
+}
+
+.tool-panel {
+    display: none;
+}
+
+.tool-panel.active {
+    display: block;
+}
+
+#sidebar .panel-title {
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: #a8b1ff;
+}
+
+.control {
+    margin-bottom: 14px;
+}
+
+.control label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.92rem;
+}
+
+.control input[type="range"] {
+    width: 100%;
+}
+
+.control input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    color: #f5f7ff;
+    padding: 10px 12px;
+    border-radius: 10px;
+    outline: none;
+}
+
+.control input[type="text"]::placeholder {
+    color: #8e95b6;
+}
+
+.control select {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    color: #f5f7ff;
+    padding: 10px 12px;
+    border-radius: 10px;
+    outline: none;
+}
+
+.control-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.action-button {
+    width: 100%;
+    border: 1px solid rgba(168, 177, 255, 0.3);
+    background: linear-gradient(180deg, rgba(168, 177, 255, 0.18), rgba(168, 177, 255, 0.08));
+    color: #f5f7ff;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.action-button.active {
+    background: linear-gradient(180deg, rgba(255, 223, 142, 0.28), rgba(255, 223, 142, 0.12));
+    border-color: rgba(255, 223, 142, 0.4);
+    color: #fff2cc;
+}
+
+.control-hint {
+    margin-top: 6px;
+    color: #8890aa;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+.planet-list {
+    display: grid;
+    gap: 8px;
+}
+
+.planet-list button {
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #f5f7ff;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.planet-list button.active {
+    border-color: rgba(168, 177, 255, 0.55);
+    background: rgba(168, 177, 255, 0.14);
+}
+
+.planet-list button.hovered {
+    border-color: rgba(255, 223, 142, 0.55);
+    background: rgba(255, 223, 142, 0.12);
+}
+
+.planet-list button small {
+    display: block;
+    color: #9ca4c3;
+    margin-top: 4px;
+}
+
+.shape-list {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.shape-list button {
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #f5f7ff;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.shape-list button.active {
+    border-color: rgba(168, 177, 255, 0.55);
+    background: rgba(168, 177, 255, 0.14);
+}
+
+.shape-list button small {
+    display: block;
+    color: #9ca4c3;
+    margin-top: 4px;
+}
+
+.planet-info {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    padding: 12px;
+    line-height: 1.5;
+    color: #d9def1;
+}
+
+.planet-info-empty {
+    color: #8890aa;
+    font-size: 0.85rem;
+}
+
+.planet-info .name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.planet-info .meta {
+    margin-top: 8px;
+    color: #b9c0da;
+    font-size: 0.85rem;
+}
+
+#canvasContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#workspace {
+    flex: 1;
+    position: relative;
+    min-width: 0;
+}
+
+.workspace-view {
+    position: absolute;
+    inset: 0;
+    display: none;
+}
+
+.workspace-view.active {
+    display: flex;
+}
+
+#lightLabContainer {
+    align-items: stretch;
+    justify-content: stretch;
+    background:
+        radial-gradient(circle at 20% 18%, rgba(90, 181, 255, 0.14), transparent 20%),
+        radial-gradient(circle at 76% 72%, rgba(255, 212, 118, 0.09), transparent 24%),
+        linear-gradient(180deg, #09101d, #05080e);
+}
+
+#lightCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.canvas-badge {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    background: rgba(6, 10, 18, 0.76);
+    color: #c7d7ff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    backdrop-filter: blur(10px);
+}

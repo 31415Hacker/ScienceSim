@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <aside id="sidebar">
+        <div class="tab-strip">
+            <button id="tabSolar" class="tab-button active" type="button">Solar System</button>
+            <button id="tabLight" class="tab-button" type="button">Light Lab</button>
+        </div>
+
+        <section id="solarPanel" class="tool-panel active">
+            <div class="panel-title" style="margin-top:0">Solar System</div>
+            <div class="control">
+                <label for="sppSlider">Samples Per Pixel: <span id="sppValue">1</span></label>
+                <input type="range" id="sppSlider" min="1" max="16" value="1" step="1">
+            </div>
+            <div class="control">
+                <label for="planetSearch">Search a planet</label>
+                <input type="text" id="planetSearch" placeholder="Type a planet name">
+            </div>
+            <div class="control">
+                <button id="pauseToggle" class="action-button" type="button">Pause sim: Off</button>
+                <div class="control-hint">Freezes the orbital time, but keeps the camera live.</div>
+            </div>
+            <div class="control">
+                <button id="focusToggle" class="action-button" type="button">Focus selected: Off</button>
+                <div class="control-hint">Keep the camera looking at the selected body.</div>
+            </div>
+            <div class="control">
+                <div class="control-hint">Click a planet to select it. Click empty space to look around.</div>
+            </div>
+            <div class="control">
+                <label for="timeSpeed">Time Speed: <span id="timeSpeedValue">0.50</span> yr/s</label>
+                <input type="range" id="timeSpeed" min="0" max="5" value="0.5" step="0.05">
+            </div>
+            <div class="control">
+                <label>Move Speed: <span id="speedValue">15.0</span></label>
+                <span style="font-size:0.8rem;color:#8890aa">Scroll wheel to adjust</span>
+            </div>
+            <div class="panel-title">Controls</div>
+            <div style="font-size:0.85rem;color:#8890aa;line-height:1.6">
+                <b>WASD</b> &mdash; Move<br>
+                <b>Space / Shift</b> &mdash; Up / Down<br>
+                <b>Mouse</b> &mdash; Look (click to capture)<br>
+                <b>Scroll</b> &mdash; Adjust speed
+            </div>
+            <div class="panel-title">Planets</div>
+            <div id="planetList" class="planet-list"></div>
+            <div class="panel-title">Selected Body</div>
+            <div id="planetInfo" class="planet-info">
+                <div class="planet-info-empty">Search or click a planet to inspect it.</div>
+            </div>
+            <div class="panel-title">Scale</div>
+            <div style="font-size:0.82rem;color:#8890aa;line-height:1.5">
+                Distances: real ratios (1 AU = 4 units)<br>
+                Sizes: exaggerated for visibility<br>
+                Orbits: real period ratios
+            </div>
+        </section>
+
+        <section id="lightPanel" class="tool-panel">
+            <div class="panel-title" style="margin-top:0">Light Lab</div>
+            <div class="control-hint">Explore 2D reflections and refractions with a draggable laser and a movable glass slab.</div>
+            <div class="control">
+                <label for="lightMode">View Mode</label>
+                <select id="lightMode">
+                    <option value="full">Full Physics</option>
+                    <option value="white">White Ray</option>
+                    <option value="split">Refraction / Reflection</option>
+                    <option value="path">Light Path</option>
+                </select>
+            </div>
+            <div class="control" id="spectrumSamplesWrap">
+                <label for="spectrumSamples">Spectrum Samples: <span id="spectrumSamplesValue">80</span></label>
+                <input type="range" id="spectrumSamples" min="1" max="100" value="80" step="1">
+            </div>
+            <div class="control" id="branchModeWrap">
+                <label for="branchMode">Branch View</label>
+                <select id="branchMode">
+                    <option value="both">Both branches</option>
+                    <option value="refraction">Refraction only</option>
+                    <option value="reflection">Reflection only</option>
+                </select>
+            </div>
+            <div class="panel-title">Shapes</div>
+            <div class="control">
+                <label for="newShapeType">New Shape Type</label>
+                <select id="newShapeType">
+                    <option value="slab">Glass Slab</option>
+                    <option value="circle">Glass Circle</option>
+                    <option value="prism">Glass Prism</option>
+                </select>
+            </div>
+            <div class="control-row">
+                <button id="addShape" class="action-button" type="button">Add Shape</button>
+                <button id="deleteShape" class="action-button" type="button">Delete Selected</button>
+            </div>
+            <div id="shapeList" class="shape-list"></div>
+            <div class="control">
+                <label for="glassIor">Shape Index: <span id="glassIorValue">1.50</span></label>
+                <input type="range" id="glassIor" min="1.0" max="2.2" value="1.5" step="0.01">
+            </div>
+            <div class="control">
+                <label for="glassRotation">Shape Rotation: <span id="glassRotationValue">12.0</span> deg</label>
+                <input type="range" id="glassRotation" min="-75" max="75" value="12" step="1">
+            </div>
+            <div class="control">
+                <label for="laserAngle">Laser Angle: <span id="laserAngleValue">-18.0</span> deg</label>
+                <input type="range" id="laserAngle" min="-85" max="85" value="-18" step="1">
+            </div>
+            <div class="control">
+                <button id="resetLightLab" class="action-button" type="button">Reset Light Lab</button>
+                <div class="control-hint">Drag the laser source, drag the laser handle to aim, or drag a shape to reposition it.</div>
+            </div>
+            <div class="panel-title">What To Watch</div>
+            <div class="planet-info">
+                <div class="meta">Yellow line: incoming laser</div>
+                <div class="meta">Cyan line: refracted path through and after the shapes</div>
+                <div class="meta">Warm lines: reflected paths at the boundaries</div>
+                <div class="meta">Dotted normal: local surface normal where the beam hits</div>
+            </div>
+        </section>
+    </aside>
+    <div id="workspace">
+        <div id="canvasContainer" class="workspace-view active">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div id="lightLabContainer" class="workspace-view">
+            <canvas id="lightCanvas"></canvas>
+            <div class="canvas-badge">Drag the source, aim handle, or any shape</div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
