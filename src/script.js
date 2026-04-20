@@ -2194,7 +2194,9 @@ async function initWebGPU() {
         await loadPlanetData();
 
         adapter = await navigator.gpu.requestAdapter();
-        device = await adapter.requestDevice();
+        const adapter = await navigator.gpu.requestAdapter({
+          powerPreference: "high-performance"
+        });
 
         uniformBuffer = device.createBuffer({
             size: 64,
