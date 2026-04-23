@@ -2192,8 +2192,7 @@ async function initWebGPU() {
         resizeCanvas();
         resetLightLab();
         await loadPlanetData();
-
-        adapter = await navigator.gpu.requestAdapter();
+        
         const adapter = await navigator.gpu.requestAdapter({
           powerPreference: "high-performance"
         });
