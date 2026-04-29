@@ -9,6 +9,8 @@ let computePipeline = null;
 let renderBindGroup = null;
 let computeBindGroup = null;
 let uniformBuffer = null;
+let outputTextureWidth = 0;
+let outputTextureHeight = 0;
 
 const fallbackPlanetData = [
     {
@@ -301,6 +303,10 @@ function updatePlanetInfo() {
         <div class="meta">Current position: x ${formatNumber(pos.x, 2)}, y ${formatNumber(pos.y, 2)}, z ${formatNumber(pos.z, 2)}</div>
         <div class="meta" style="margin-top:8px">${planet.description}</div>
     `;
+}
+
+function alignTo(value, alignment) {
+    return Math.ceil(value / alignment) * alignment;
 }
 
 function updatePlanetList(filterText = '') {
@@ -2147,39 +2153,56 @@ function bindInspectorControls() {
 
 function resizeCanvas() {
     if (!canvas || !workspaceEl || !device) return;
-
+    
     const dpr = window.devicePixelRatio || 1;
-
-    const width = Math.max(1, Math.floor(workspaceEl.clientWidth * dpr));
-    const height = Math.max(1, Math.floor(workspaceEl.clientHeight * dpr));
-
+    
+    const width = Math.floor(workspaceEl.clientWidth * dpr);
+    const height = Math.floor(workspaceEl.clientHeight * dpr);
+    
     canvas.width = width;
     canvas.height = height;
+    
+    // 👇 ALIGN ONLY THE TEXTURE
+    const bytesPerRow = width * 4;
+    const alignedBytesPerRow = alignTo(bytesPerRow, 256);
+    const paddedWidth = alignedBytesPerRow / 4;
+    
     resizeLightCanvas();
-
+    
     if (outputTexture) {
         outputTexture.destroy();
+    
         outputTexture = device.createTexture({
-            size: [canvas.width, canvas.height],
+            size: [paddedWidth, height],
             format: format,
-            usage: GPUTextureUsage.STORAGE_BINDING | GPUTextureUsage.TEXTURE_BINDING,
+            usage:
+                GPUTextureUsage.STORAGE_BINDING |
+                GPUTextureUsage.TEXTURE_BINDING |
+                GPUTextureUsage.RENDER_ATTACHMENT,
         });
+    
         computeBindGroup = device.createBindGroup({
             layout: computePipeline.getBindGroupLayout(0),
-            entries: [{
-                binding: 0,
-                resource: outputTexture.createView(),
-            }, {
-                binding: 1,
-                resource: { buffer: uniformBuffer },
-            }],
+            entries: [
+                {
+                    binding: 0,
+                    resource: outputTexture.createView(),
+                },
+                {
+                    binding: 1,
+                    resource: { buffer: uniformBuffer },
+                },
+            ],
         });
+    
         renderBindGroup = device.createBindGroup({
             layout: pipeline.getBindGroupLayout(0),
-            entries: [{
-                binding: 0,
-                resource: outputTexture.createView(),
-            }],
+            entries: [
+                {
+                    binding: 0,
+                    resource: outputTexture.createView(),
+                },
+            ],
         });
     }
 }
@@ -2243,6 +2266,8 @@ async function initWebGPU() {
             },
             primitive: { topology: 'triangle-strip' },
         });
+
+        resizeCanvas();
 
         computeBindGroup = device.createBindGroup({
             layout: computePipeline.getBindGroupLayout(0),
