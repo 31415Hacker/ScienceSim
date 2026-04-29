@@ -2197,6 +2197,8 @@ async function initWebGPU() {
           powerPreference: "high-performance"
         });
 
+        const device = await adapter.requestDevice();
+
         uniformBuffer = device.createBuffer({
             size: 64,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
