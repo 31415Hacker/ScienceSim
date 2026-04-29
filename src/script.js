@@ -2193,11 +2193,11 @@ async function initWebGPU() {
         resetLightLab();
         await loadPlanetData();
         
-        const adapter = await navigator.gpu.requestAdapter({
+        adapter = await navigator.gpu.requestAdapter({
           powerPreference: "high-performance"
         });
 
-        const device = await adapter.requestDevice();
+        device = await adapter.requestDevice();
 
         uniformBuffer = device.createBuffer({
             size: 64,
