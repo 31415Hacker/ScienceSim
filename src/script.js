@@ -2146,15 +2146,15 @@ function bindInspectorControls() {
 }
 
 function resizeCanvas() {
-    if (!canvas || !workspaceEl) {
-        return;
-    }
+    if (!canvas || !workspaceEl || !device) return;
 
-    const gpuWidth = Math.max(1, Math.floor(workspaceEl.clientWidth));
-    const gpuHeight = Math.max(1, Math.floor(workspaceEl.clientHeight));
+    const dpr = window.devicePixelRatio || 1;
 
-    canvas.width = gpuWidth;
-    canvas.height = gpuHeight;
+    const width = Math.max(1, Math.floor(workspaceEl.clientWidth * dpr));
+    const height = Math.max(1, Math.floor(workspaceEl.clientHeight * dpr));
+
+    canvas.width = width;
+    canvas.height = height;
     resizeLightCanvas();
 
     if (outputTexture) {
@@ -2205,13 +2205,16 @@ async function initWebGPU() {
         });
 
         context = canvas.getContext('webgpu');
-        format = 'rgba8unorm';
-        context.configure({ device, format });
+        format = navigator.gpu.getPreferredCanvasFormat();
+        context.configure({ device, format, alphaMode: "opaque", });
 
         outputTexture = device.createTexture({
             size: [canvas.width, canvas.height],
             format: format,
-            usage: GPUTextureUsage.STORAGE_BINDING | GPUTextureUsage.TEXTURE_BINDING,
+            usage:
+                GPUTextureUsage.STORAGE_BINDING |
+                GPUTextureUsage.TEXTURE_BINDING |
+                GPUTextureUsage.RENDER_ATTACHMENT,
         });
 
         const vertexShaderResponse = await fetch('../shaders/vertex.wgsl');
